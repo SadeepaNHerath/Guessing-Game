@@ -1,34 +1,39 @@
-class Customer{
-    name;
-    age;
-    address;
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('guessForm');
+    const input = document.getElementById('guessInput');
+    const message = document.getElementById('message');
+    const result = document.getElementById('result');
+    const maxTries = 10;
+    let randomNumber = Math.floor((Math.random()*10)+1);
+    console.log(randomNumber);
+    let tries = 0;
 
-    constructor(name , age , address){
-        this.name=name;
-        this.age=age;
-        this.address=address;
-    }
-    setName(name){
-        this.name=name;
-    }
-    setAge(age){
-        this.age=age;
-    }
-    setAddress(address){
-        this.address=address;
-    }
-    getName(){
-        return this.name;
-    }
-    getAge(){
-        return this.age;
-    }
-    getAddress(){
-        return this.address;
-    }
-}
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const userGuess = parseInt(input.value, 10);
+        tries++;
 
+        if (userGuess === randomNumber) {
+            result.textContent = "Congratulations! You guessed the number ${randomNumber} in ${tries} tries.";
+            result.style.color = 'green';
+            resetGame();
+        } else if (tries >= maxTries) {
+            result.textContent = "Sorry, you've reached the maximum number of tries. The number was ${randomNumber}.";
+            result.style.color = 'red';
+            resetGame();
+        } else if (userGuess > randomNumber) {
+            message.textContent = 'Too high! Try again.';
+        } else {
+            message.textContent = 'Too low! Try again.';
+        }
 
-let customer1 = new Customer("Sadeepa",20,"Balalla");
+        input.value = '';
+        input.focus();
+    });
 
-console.log(customer1.name);
+    function resetGame() {
+        randomNumber = Math.floor(Math.random() * 10) + 1;
+        tries = 0;
+        message.textContent = 'Guess a number between 1 and 100';
+        input.value='';}
+});
