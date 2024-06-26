@@ -4,8 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const message = document.getElementById('message');
     const result = document.getElementById('result');
     const maxTries = 5;
-    let randomNumber = Math.floor((Math.random()*10)+1);
-    console.log(randomNumber);
+    let randomNumber = Math.floor(Math.random() * 10) + 1;
     let tries = 0;
 
     form.addEventListener('submit', (e) => {
@@ -14,17 +13,17 @@ document.addEventListener('DOMContentLoaded', () => {
         tries++;
 
         if (userGuess === randomNumber) {
-            result.textContent = "Congratulations! You guessed the number";
+            result.innerHTML = "வாழ்த்துகள்! நீ வென்றாய் <i class='bi bi-trophy-fill'></i>";
             result.style.color = 'green';
-            resetGame();
+            setTimeout(resetGame, 3000); // Delay of 3 seconds before resetting the game
         } else if (tries >= maxTries) {
-            result.textContent = "Sorry, you've reached the maximum number of tries. The number was " + randomNumber;
+            result.innerHTML = "மன்னிக்கவும், முயற்சிகளின் அதிகபட்ச எண்ணிக்கையை அடைந்துவிட்டீர்கள். எண் இருந்தது " + randomNumber;
             result.style.color = 'red';
-            resetGame();
+            setTimeout(resetGame, 3000); // Delay of 3 seconds before resetting the game
         } else if (userGuess > randomNumber) {
-            message.textContent = 'Too high! Try again.';
+            message.innerHTML = 'மிக அதிக! மீண்டும் முயற்சி செய். <i class="bi bi-emoji-frown-fill"></i>';
         } else {
-            message.textContent = 'Too low! Try again.';
+            message.innerHTML = 'மிக குறைந்த! மீண்டும் முயற்சி செய். <i class="bi bi-emoji-frown-fill"></i>';
         }
 
         input.value = '';
@@ -34,6 +33,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function resetGame() {
         randomNumber = Math.floor(Math.random() * 10) + 1;
         tries = 0;
-        message.textContent = 'Guess a number between 1 and 10';
-        input.value='';}
+        message.innerHTML = '1 முதல் 10 வரையிலான எண்ணை யூகிக்கவும்';
+        input.value = '';
+        result.innerHTML = '';
+        result.style.color = '';
+    }
 });
