@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const input = document.getElementById('guessInput');
     const message = document.getElementById('message');
     const result = document.getElementById('result');
-    const maxTries = 10;
+    const maxTries = 5;
     let randomNumber = Math.floor((Math.random()*10)+1);
     console.log(randomNumber);
     let tries = 0;
@@ -14,11 +14,11 @@ document.addEventListener('DOMContentLoaded', () => {
         tries++;
 
         if (userGuess === randomNumber) {
-            result.textContent = "Congratulations! You guessed the number ${randomNumber} in ${tries} tries.";
+            result.textContent = "Congratulations! You guessed the number";
             result.style.color = 'green';
             resetGame();
         } else if (tries >= maxTries) {
-            result.textContent = "Sorry, you've reached the maximum number of tries. The number was ${randomNumber}.";
+            result.textContent = "Sorry, you've reached the maximum number of tries. The number was " + randomNumber;
             result.style.color = 'red';
             resetGame();
         } else if (userGuess > randomNumber) {
@@ -34,6 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function resetGame() {
         randomNumber = Math.floor(Math.random() * 10) + 1;
         tries = 0;
-        message.textContent = 'Guess a number between 1 and 100';
+        message.textContent = 'Guess a number between 1 and 10';
         input.value='';}
 });
