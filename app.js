@@ -3,39 +3,64 @@ document.addEventListener('DOMContentLoaded', () => {
     const input = document.getElementById('guessInput');
     const message = document.getElementById('message');
     const result = document.getElementById('result');
+    const attemptCount = document.getElementById('attemptCount');
+    const winCount = document.getElementById('winCount');
+    const newGameBtn = document.getElementById('newGameBtn');
     const maxTries = 5;
-    let randomNumber = Math.floor(Math.random() * 10) + 1;
+    let randomNumber;
     let tries = 0;
+    let wins = 0;
+    
+    initGame();
+    
+    function initGame() {
+        randomNumber = Math.floor(Math.random() * 10) + 1;
+        tries = 0;
+        attemptCount.textContent = tries;
+        message.innerHTML = '1 සිට 10 දක්වා අංකයක් අනුමාන කරන්න';
+        message.className = 'fs-5';
+        input.value = '';
+        result.innerHTML = '';
+        result.className = 'result-message';
+        input.disabled = false;
+        form.querySelector('button').disabled = false;
+        input.focus();
+    }
 
     form.addEventListener('submit', (e) => {
         e.preventDefault();
         const userGuess = parseInt(input.value, 10);
         tries++;
+        attemptCount.textContent = tries;
 
         if (userGuess === randomNumber) {
-            result.innerHTML = "வாழ்த்துகள்! நீ வென்றாய் <i class='bi bi-trophy-fill'></i>";
-            result.style.color = 'green';
-            setTimeout(resetGame, 3000); // Delay of 3 seconds before resetting the game
+            wins++;
+            winCount.textContent = wins;
+            result.innerHTML = "සුභ පැතුම්! ඔබ ජයග්‍රහණය කළා <i class='bi bi-trophy-fill'></i>";
+            result.className = 'result-message text-success animate-success';
+            disableInputs();
+            setTimeout(initGame, 3000);
         } else if (tries >= maxTries) {
-            result.innerHTML = "மன்னிக்கவும், முயற்சிகளின் அதிகபட்ச எண்ணிக்கையை அடைந்துவிட்டீர்கள். எண் இருந்தது " + randomNumber;
-            result.style.color = 'red';
-            setTimeout(resetGame, 3000); // Delay of 3 seconds before resetting the game
+            result.innerHTML = `සමාවෙන්න, ඔබ උපරිම උත්සාහයන් ගණන කරා ළඟා වී ඇත. අංකය වූයේ ${randomNumber} <i class="bi bi-emoji-frown-fill"></i>`;
+            result.className = 'result-message text-danger';
+            disableInputs();
+            setTimeout(initGame, 3000);
         } else if (userGuess > randomNumber) {
-            message.innerHTML = 'மிக அதிக! மீண்டும் முயற்சி செய். <i class="bi bi-emoji-frown-fill"></i>';
+            message.innerHTML = 'ඉතා වැඩියි! නැවත උත්සාහ කරන්න. <i class="bi bi-arrow-down"></i>';
+            message.className = 'fs-5 text-warning';
         } else {
-            message.innerHTML = 'மிக குறைந்த! மீண்டும் முயற்சி செய். <i class="bi bi-emoji-frown-fill"></i>';
+            message.innerHTML = 'ඉතා අඩුයි! නැවත උත්සාහ කරන්න. <i class="bi bi-arrow-up"></i>';
+            message.className = 'fs-5 text-warning';
         }
 
         input.value = '';
         input.focus();
     });
-
-    function resetGame() {
-        randomNumber = Math.floor(Math.random() * 10) + 1;
-        tries = 0;
-        message.innerHTML = '1 முதல் 10 வரையிலான எண்ணை யூகிக்கவும்';
-        input.value = '';
-        result.innerHTML = '';
-        result.style.color = '';
+    
+    newGameBtn.addEventListener('click', initGame);
+    
+    function disableInputs() {
+        input.disabled = true;
+        form.querySelector('button').disabled = true;
     }
 });
